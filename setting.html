@@ -1,18 +1,182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<title>用户设置</title>
+			<link rel="stylesheet" type="text/css" href="css/registLogin/util.css">
+		<link rel="stylesheet" type="text/css" href="css/registLogin/main.css">
+		
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.css" rel="stylesheet" />
-	</head>
-
-	<body>
-		<script src="js/mui.js"></script>
-		<script type="text/javascript">
-			mui.init()
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<link href="css/mui.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="fontico/iconfont.css" />
+		<link rel="stylesheet" href="css/header.css" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" charset="utf-8">	
+		  	mui.plusReady(function(){
+		  		plus.navigator.setStatusBarStyle("light");
+				// 008f7c
+		  		plus.navigator.setStatusBarBackground("#4887fb");
+		  	});
 		</script>
+	</head>
+	<body>
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<aside id="offCanvasSide" class="mui-off-canvas-left mui-transitioning" style="visibility: visible; z-index: 0;">
+					<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
+					  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
+						<!-- 菜单具体展示内容 -->
+						<span class="div-face">
+							<img class="face" src="image/touxiang.jpg">
+						</span>
+						<ul id="ul-data" class="white">
+							<li class="li-item index"><span class="mui-icon mui-icon-compose"></span>首页</li>
+							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
+							<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
+							<li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
+						</ul>
+					  </div>
+					</div>
+			</aside>
+			  <!-- 主页面容器 -->
+			  <div class="mui-inner-wrap">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav title">
+				    <h1 class="mui-title title-color" id="muxin_title"><b>用户设置</b></h1>
+					<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+				</header>
+				<div class="mui-content mui-scroll-wrapper">
+				<div class="mui-row">
+					<div class="mui-input-group">
+						<div class="mui-input-row">
+							<label>用户名：</label>
+							<input type="text" class="mui-input-clear user-name" placeholder="用户名">
+						</div>
+						<div class="mui-input-row">
+							<label>用户电话：</label>
+							<input type="text" class="mui-input-clear user-phone" placeholder="用户电话">
+						</div>
+						<div class="mui-input-row">
+							<label>用户年龄：</label>
+							<input type="text" class="mui-input-clear user-age" placeholder="用户年龄">
+						</div>
+						<!-- <button class="test-list">测试列表</button> -->
+					</div>
+					</br>
+					</br>
+					<div class="mui-input-group">
+					  <div class="mui-input-row">
+						<label>修改密码：</label>
+						<input type="text" class="mui-input-clear update-password" placeholder="新密码">
+					  </div>
+					  <div class="mui-button-row">
+						<button type="button" class="mui-btn mui-btn-primary update-password-btn" >更新密码</button>
+					  </div>
+					</div>
+				</div>  
+			  </div>
+			  
+			</div>
+			<script type="text/javascript" src="js/app.js" ></script>
+			 <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript">
+ 				mui.init({
+ 					swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
+ 				});
+				
+				mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
+					mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
+				});
+				$(function(){
+					$(".li-item").click(function() {
+						$(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+						$(this).addClass('selected');                            // 添加当前元素的样式
+					});
+				});
+				
+				const e = (selector) => {
+					return document.querySelector(selector)
+				}
+				
+				const ajax = function(method, path, data, reseponseCallback) {
+					let r = new XMLHttpRequest()
+					r.open(method, path, true)
+					r.setRequestHeader('Content-Type', 'application/json')
+					r.onreadystatechange = function() {
+						// readyState == 4 表示请求结束并且得到了服务器给的响应数据
+						if (r.readyState === 4) {
+							reseponseCallback(r.response)
+						}
+					}
+					r.send(data)
+				}
+				
+				const name = e('.user-name')
+				const phone = e('.user-phone')
+				const age = e('.user-age')
+				const newPassword = e('.update-password')
+				const passBtn = e('.update-password-btn')
+				
+				passBtn.addEventListener("tap", (e) => {
+					let p = newPassword.value
+					let s = `?token=${app.getUserGlobalInfo()}&password=${p}`
+					let url = app.serverUrl + "patient/updatePassword" + s
+					ajax("POST", url, {}, (r) => {
+						d = JSON.parse(r)
+						if (d.Message) {
+							alert("修改密码成功")
+							newPassword.value = ""
+						}
+					})
+				})
+ 				
+				const getUserData = () => {
+					let s = `?token=${app.getUserGlobalInfo()}`
+					let url = app.serverUrl + "patient/get-via-token" + s
+					console.log(url)
+					$.ajax({url: url,success:function(result){
+						d = result.data
+						let n = d.nickname
+						let p = d.phone
+						let a = d.age
+						
+						name.value = n
+						phone.value = p
+						age.value = a
+					}});
+				}
+				 
+				mui.plusReady(getUserData)
+				
+				let index = e('.index')
+				index.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "index.html",
+						id: "index.html",
+					});
+				})
+				mui.trigger(index, 'tap');
+				
+				let report = e('.report')
+				report.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "report.html",
+						id: "report.html",
+					});
+				})
+				mui.trigger(report, 'tap');
+				
+				let friends = e('.friends')
+				friends.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "friends.html",
+						id: "friends.html",
+					});
+				})
+				mui.trigger(friends, 'tap');
+			</script>
 	</body>
-
 </html>

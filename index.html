@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="js/mui.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.js" type="text/javascript" charset="utf-8"></script>
     <link href="css/mui.css" rel="stylesheet"/>
     <link rel="stylesheet" href="fontico/iconfont.css" />
     <link rel="stylesheet" href="css/header.css" />
@@ -35,7 +34,7 @@
 				<li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>首页</li>
 				<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
 				<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
-				<li class="li-item"><span class="mui-icon mui-icon-gear"></span>系统设置</li>
+				<li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
 			</ul>
 		  </div>
 		</div>
@@ -76,12 +75,12 @@
 		mui.init({
 			swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
 		});
-		mui.plusReady(function() {
-			// 禁止返回登陆注册页面
-			mui.back = function() {
-				return false;
-			}
-		})
+// 		mui.plusReady(function() {
+// 			// 禁止返回登陆注册页面
+// 			mui.back = function() {
+// 				return false;
+// 			}
+// 		})
 		mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
 			mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
 		});
@@ -112,6 +111,15 @@
 			mui.openWindow({
 				url: "friends.html",
 				id: "friends.html",
+			});
+		})
+		mui.trigger(friends, 'tap');
+		
+		let setting = e('.setting')
+		setting.addEventListener('tap', (e) => {
+			mui.openWindow({
+				url: "setting.html",
+				id: "setting.html",
 			});
 		})
 		mui.trigger(friends, 'tap');

@@ -1,5 +1,13 @@
+function plusReady () {
+	var self=plus.webview.currentWebview();
+}
+				
+if (window.plus) {
+	plusReady();
+} else {
+	document.addEventListener("plusready",plusReady,false);  
+}
 window.app = {
-	
 	/**
 	 * netty服务后端发布的url地址
 	 */
@@ -45,14 +53,16 @@ window.app = {
 	 */
 	setUserGlobalInfo: function(user) {
 		var userInfoStr = JSON.stringify(user);
-		plus.storage.setItem("userInfo", userInfoStr);
+		// plus.storage.setItem("userInfo", userInfoStr);
+		localStorage.setItem("userInfo", userInfoStr)
 	},
 	
 	/**
 	 * 获取用户的全局对象
 	 */
 	getUserGlobalInfo: function() {
-		var userInfoStr = plus.storage.getItem("userInfo");
+		// var userInfoStr = plus.storage.getItem("userInfo");
+		var userInfoStr = localStorage.getItem("userInfo");
 		return JSON.parse(userInfoStr);
 	},
 	

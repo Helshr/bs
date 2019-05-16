@@ -10,7 +10,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="js/mui.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<link href="css/mui.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="fontico/iconfont.css" />
 		<link rel="stylesheet" href="css/header.css" />
@@ -36,7 +36,7 @@
 							<li class="li-item index"><span class="mui-icon mui-icon-compose"></span>首页</li>
 							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
 							<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
-							<li class="li-item"><span class="mui-icon mui-icon-gear"></span>系统设置</li>
+							<li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
 						</ul>
 					  </div>
 					</div>
@@ -53,15 +53,15 @@
 					<div class="mui-input-group">
 						<div class="mui-input-row">
 							<label>家属名：</label>
-							<input type="text" class="mui-input-clear friend-name" placeholder="请输入家属名" value="dsad">
+							<input type="text" class="mui-input-clear friend-name" placeholder="请输入家属名">
 						</div>
 						<div class="mui-input-row">
 							<label>家属电话：</label>
-							<input type="text" class="mui-input-clear friend-phone" placeholder="请输入家属电话" value="dsadas">
+							<input type="text" class="mui-input-clear friend-phone" placeholder="请输入家属电话">
 						</div>
 						<div class="mui-input-row">
 							<label>与患者关系：</label>
-							<input type="text" class="mui-input-clear friend-relation" placeholder="(可选)" value="dsadasda">
+							<input type="text" class="mui-input-clear friend-relation" placeholder="(可选)">
 						</div>
 						<div class="mui-button-row">
 							<button type="button" class="mui-btn mui-btn-primary add-friend" >添加</button>
@@ -99,22 +99,32 @@
 						$(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
 						$(this).addClass('selected');                            // 添加当前元素的样式
 					});
-				}); 
+				});
+ 				
+				const getFriendsList = () => {
+					let s = `?token=${app.getUserGlobalInfo()}`
+					let url = app.serverUrl + "guardian/getlist" + s
+					const container = document.querySelector('.body-list')
+					console.log(url)
+					$.ajax({url: url,success:function(result){
+						d = result.data
+						container.innerHTML = ""
+						for (var i = 0; i < d.length; i++) {
+							f = d[i]
+							let id = f.id
+							let name = f.gdname
+							let phone = f.gdphone
+							let relation = f.kinship
+							let t = templateTodo(id, name, phone, relation)
+							container.insertAdjacentHTML('beforeend', t)
+						}
+					}});
+				}
+				 
+				mui.plusReady(getFriendsList)
+				
 				const e = (selector) => {
 					return document.querySelector(selector)
-				}
-				
-				const ajax = function(method, path, data, reseponseCallback) {
-					let r = new XMLHttpRequest()
-					r.open(method, path, true)
-					r.setRequestHeader('Content-Type', 'application/json')
-					r.onreadystatechange = function() {
-						// readyState == 4 表示请求结束并且得到了服务器给的响应数据
-						if (r.readyState === 4) {
-							reseponseCallback(r.response)
-						}
-					}
-					r.send(data)
 				}
 				
 				const name = e('.friend-name')
@@ -198,38 +208,10 @@
 									})
 								}
 							}
-							
-							// 序列化后利用 ajax发送
-// 							let s = `?id=${eleId}`
-// 							let url = app.serverUrl + "guardian/delete" + s
-// 							ajax('DELETE', url, {}, (r) => {
-// 								getFriendsList()
-// 							})
 						}						
 					})
 				}
 				updateItemEvent()
-				
-				const getFriendsList = () => {
-					let s = `?token=${app.getUserGlobalInfo()}`
-					let url = app.serverUrl + "guardian/getlist" + s
-					const container = e('.body-list')
-						ajax('GET', url, {}, (r) => {
-							rd = JSON.parse(r)
-							d = rd.data
-							container.innerHTML = ""
-							for (var i = 0; i < d.length; i++) {
-								f = d[i]
-								let id = f.id
-								let name = f.gdname
-								let phone = f.gdphone
-								let relation = f.kinship
-								let t = templateTodo(id, name, phone, relation)
-								container.insertAdjacentHTML('beforeend', t)
-							}
-						})
-					
-				}
 				
 				let index = e('.index')
 				index.addEventListener('tap', (e) => {
@@ -249,6 +231,14 @@
 				})
 				mui.trigger(report, 'tap');
 				
+				let setting = e('.setting')
+				setting.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "setting.html",
+						id: "setting.html",
+					});
+				})
+				mui.trigger(setting, 'tap');
 				// friend模版
 				const templateTodo = (id, name, phone, relation) => {
 					let t = `<td id="friend-name-${id}" class=${name}>${name}</td><td id="friend-phone-${id}" class=${phone}>${phone}</td><td id="friend-relation-${id}" class=${relation}>${relation}</td><td> \

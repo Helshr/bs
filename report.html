@@ -38,7 +38,7 @@
 							<!-- <li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>血压记录</li> -->
 							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
 							<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
-							<li class="li-item"><span class="mui-icon mui-icon-gear"></span>系统设置</li>
+							<li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
 						</ul>
 					  </div>
 					</div>
@@ -113,6 +113,15 @@
 					});
 				})
 				mui.trigger(friends, 'tap');
+				
+				let setting = e('.setting')
+				setting.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "setting.html",
+						id: "setting.html",
+					});
+				})
+				mui.trigger(setting, 'tap');
 				
 				var myChart1 = echarts.init(document.getElementById('echarts-main1'));
 				var myChart2 = echarts.init(document.getElementById('echarts-main2'));
