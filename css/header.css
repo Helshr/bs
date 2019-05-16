@@ -1,0 +1,117 @@
+html { touch-action: none; }
+
+.title {
+	background-color: #4887fb;
+}
+
+.title-color {
+	color: white;
+}
+
+.mui-bar-tab .mui-tab-item.mui-active {
+	color: #c9394a;
+}
+
+.bt-title {
+	color: #4887fb;
+}
+
+#offCanvasSide {
+	text-align: center;
+}
+
+.white {
+	color: white;
+}
+
+li {
+	list-style-type: none;
+}
+
+.face {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2em;
+	width: 10em;
+	height: 10em;
+	border-radius: 200px;
+}
+
+.li-item {
+	text-align: center;
+	margin-top: 3em;
+	margin-left: -3em;
+	font-size: x-large;
+}
+
+.selected {
+	background-color: #00937d;
+}
+
+#div-img-index {
+	background: url(../image/u147.png);
+	height: 110px;;
+}
+
+.div-1 {
+	/* height: 65px; */
+	text-align: center;
+	display: inline-block;
+}
+
+.div-2 {
+	/* height: 65px; */
+	text-align: center;
+	display: inline-block;
+}
+
+.div-3 {
+	/* height: 65px; */
+	text-align: center;
+	display: inline-block;
+
+}
+
+.white {
+	color: white;
+}
+
+.big-font {
+	font-size: x-large;
+}
+
+.div-logo {
+	margin-left: 30px;
+	margin-top: 70px;
+	background-image: url(../image/logo.png);
+	background-size: 330px;
+	background-repeat:no-repeat;
+	/* width: 300px; */
+	height: 400px;
+}
+
+.table {
+	padding: 0;
+	border: 1px solid #CCCCCC;
+	color: #666;
+	width: 100%;
+	overflow-y: auto;
+	_overflow: auto;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+.table th {
+	background-repeat: repeat-x;
+	height: 30px;
+}
+
+.table td.table th {
+	border: 1px solid #CCCCCC;
+	text-align: center;
+	word-break: break-all;
+}
+
+.table tr.alter {
+	background-color: #CCCCCC;
+}

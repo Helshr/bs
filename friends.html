@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>成员管理</title>
+			<link rel="stylesheet" type="text/css" href="css/registLogin/util.css">
+		<link rel="stylesheet" type="text/css" href="css/registLogin/main.css">
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.js" type="text/javascript" charset="utf-8"></script>
+		<link href="css/mui.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="fontico/iconfont.css" />
+		<link rel="stylesheet" href="css/header.css" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" charset="utf-8">	
+		  	mui.plusReady(function(){
+		  		plus.navigator.setStatusBarStyle("light");
+				// 008f7c
+		  		plus.navigator.setStatusBarBackground("#4887fb");
+		  	});
+		</script>
+	</head>
+	<body>
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<aside id="offCanvasSide" class="mui-off-canvas-left mui-transitioning" style="visibility: visible; z-index: 0;">
+					<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
+					  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
+						<!-- 菜单具体展示内容 -->
+						<span class="div-face">
+							<img class="face" src="image/touxiang.jpg">
+						</span>
+						<ul id="ul-data" class="white">
+							<li class="li-item index"><span class="mui-icon mui-icon-compose"></span>首页</li>
+							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
+							<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
+							<li class="li-item"><span class="mui-icon mui-icon-gear"></span>系统设置</li>
+						</ul>
+					  </div>
+					</div>
+			</aside>
+			  <!-- 主页面容器 -->
+			  <div class="mui-inner-wrap">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav title">
+				    <h1 class="mui-title title-color" id="muxin_title"><b>成员管理</b></h1>
+					<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+				</header>
+				<div class="mui-content mui-scroll-wrapper">
+				<div class="mui-row">
+					<div class="mui-input-group">
+						<div class="mui-input-row">
+							<label>家属名：</label>
+							<input type="text" class="mui-input-clear friend-name" placeholder="请输入家属名" value="dsad">
+						</div>
+						<div class="mui-input-row">
+							<label>家属电话：</label>
+							<input type="text" class="mui-input-clear friend-phone" placeholder="请输入家属电话" value="dsadas">
+						</div>
+						<div class="mui-input-row">
+							<label>与患者关系：</label>
+							<input type="text" class="mui-input-clear friend-relation" placeholder="(可选)" value="dsadasda">
+						</div>
+						<div class="mui-button-row">
+							<button type="button" class="mui-btn mui-btn-primary add-friend" >添加</button>
+						</div>
+						<!-- <button class="test-list">测试列表</button> -->
+					</div>
+					<div class="friends-list" style="text-align: center;">
+						<table class="table">
+						  <thead>
+							<th>家属名</th>
+							<th>家属电话</th>
+							<th>与患者关系</th>
+							<th>操作</th>
+						  </thead>
+						  <tbody class="body-list">
+						  <!-- </tr> -->
+						  </tbody>
+						</table>
+					</div>
+				</div>  
+			  </div>
+			</div>
+			<script type="text/javascript" src="js/app.js" ></script>
+			 <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript">
+ 				mui.init({
+ 					swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
+ 				});
+				
+				mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
+					mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
+				});
+				$(function(){
+					$(".li-item").click(function() {
+						$(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+						$(this).addClass('selected');                            // 添加当前元素的样式
+					});
+				}); 
+				const e = (selector) => {
+					return document.querySelector(selector)
+				}
+				
+				const ajax = function(method, path, data, reseponseCallback) {
+					let r = new XMLHttpRequest()
+					r.open(method, path, true)
+					r.setRequestHeader('Content-Type', 'application/json')
+					r.onreadystatechange = function() {
+						// readyState == 4 表示请求结束并且得到了服务器给的响应数据
+						if (r.readyState === 4) {
+							reseponseCallback(r.response)
+						}
+					}
+					r.send(data)
+				}
+				
+				const name = e('.friend-name')
+				const phone = e('.friend-phone')
+				const relation = e('.friend-relation')
+				const addButton = e('.add-friend')
+
+				
+				// const testButton = e('.test-list')
+				
+				// 添加删除事件
+				const deleteItemEvent = () => {
+					// 为父节点绑定事件，进行事件委托
+					const conatiner = e('.body-list')
+					conatiner.addEventListener('tap', (event) => {
+						let target = event.target
+						// 获取点击元素的父节点
+						// 获取该 div的 id
+						let eleId = target.getAttribute("data-id")
+						if (target.classList.contains('todo-delete-cell')) {
+							let del = confirm("确认删除吗?");
+							if(!del){
+							  return false;
+							} else {
+								// 序列化后利用 ajax发送
+								let s = `?id=${eleId}`
+								let url = app.serverUrl + "guardian/delete" + s
+								ajax('DELETE', url, {}, (r) => {
+									getFriendsList()
+								})
+						}
+						}	
+					})
+				}
+				deleteItemEvent()
+				
+				
+				// 更新事件
+				const updateItemEvent = () => {
+					// 为父节点绑定事件，进行事件委托
+					const conatiner = e('.body-list')
+					conatiner.addEventListener('tap', (event) => {
+						let target = event.target
+						// 获取点击元素的父节点
+						// 获取该 div的 id
+						let eleId = target.getAttribute("data-id")
+						console.log("id " + eleId)
+						if (target.classList.contains('todo-edit-cell')) {
+							let nameTd = e(`#friend-name-${eleId}`)
+							let phoneTd = e(`#friend-phone-${eleId}`)
+							let relationTd = e(`#friend-relation-${eleId}`)
+							
+							let nameText = nameTd.getAttribute("class")
+							let phoneText = phoneTd.getAttribute("class")
+							let relationText = relationTd.getAttribute("class")
+							
+							name.value = nameText
+							phone.value = phoneText
+							relation.value = relationText
+							
+							addButton.textContent = "修改"
+							if (addButton.textContent == '修改') {
+								console.log("@@@@@@@@@ 修改")
+								if (eleId !== undefined) {
+									addButton.addEventListener("tap", (e) => {
+										let n = name.value
+										let p = phone.value
+										let r = relation.value
+										let s = `?id=${eleId}&gdname=${n}&gdphone=${p}&kinship=${r}`
+										let url = app.serverUrl + "guardian/update" + s
+										console.log("url " + url)
+										ajax('POST', url, {}, (r) => {
+											console.log(r)
+											addButton.textContent = "添加"
+											name.value = "";
+											phone.value = "";
+											relation.value = "";
+											getFriendsList()
+											alert("修改家属数据成功")
+										})
+									})
+								}
+							}
+							
+							// 序列化后利用 ajax发送
+// 							let s = `?id=${eleId}`
+// 							let url = app.serverUrl + "guardian/delete" + s
+// 							ajax('DELETE', url, {}, (r) => {
+// 								getFriendsList()
+// 							})
+						}						
+					})
+				}
+				updateItemEvent()
+				
+				const getFriendsList = () => {
+					let s = `?token=${app.getUserGlobalInfo()}`
+					let url = app.serverUrl + "guardian/getlist" + s
+					const container = e('.body-list')
+						ajax('GET', url, {}, (r) => {
+							rd = JSON.parse(r)
+							d = rd.data
+							container.innerHTML = ""
+							for (var i = 0; i < d.length; i++) {
+								f = d[i]
+								let id = f.id
+								let name = f.gdname
+								let phone = f.gdphone
+								let relation = f.kinship
+								let t = templateTodo(id, name, phone, relation)
+								container.insertAdjacentHTML('beforeend', t)
+							}
+						})
+					
+				}
+				
+				let index = e('.index')
+				index.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "index.html",
+						id: "index.html",
+					});
+				})
+				mui.trigger(index, 'tap');
+				
+				let report = e('.report')
+				report.addEventListener('tap', (e) => {
+					mui.openWindow({
+						url: "report.html",
+						id: "report.html",
+					});
+				})
+				mui.trigger(report, 'tap');
+				
+				// friend模版
+				const templateTodo = (id, name, phone, relation) => {
+					let t = `<td id="friend-name-${id}" class=${name}>${name}</td><td id="friend-phone-${id}" class=${phone}>${phone}</td><td id="friend-relation-${id}" class=${relation}>${relation}</td><td> \
+						<button class="mui-btn mui-btn-primary mui-btn-outlined todo-edit-cell" data-id=${id}>修改</button>  \
+						<button class="mui-btn mui-btn-danger mui-btn-outlined todo-delete-cell" data-id=${id}>删除</button></tr> \
+						`
+					return t
+				}				
+			
+				addButton.addEventListener('tap', (e) => {
+					const n = name.value
+					const p = phone.value
+					const r = relation.value
+					
+					s = `?gdname=${n}&gdphone=${p}&kinship=${r}&token=${app.getUserGlobalInfo()}`
+					url = app.serverUrl + "guardian/save" + s
+					if (addButton.textContent == '添加') {
+						console.log("&&&&&&&&& 添加")
+						mui.ajax(url,{
+							data:{},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒
+							headers: {'Content-Type':'application/json'},	              
+							success: function(d){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								rd = d
+								if (d.Message) {
+									name.value = ""
+									phone.value = ""
+									relation.value = ""
+									getFriendsList()
+									mui.alert("添加成功")
+								} else {
+									mui.alert("添加失败")
+								}
+							}
+						});
+					}
+				})
+				
+			</script>
+	</body>
+</html>

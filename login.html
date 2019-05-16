@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/registLogin/util.css">
+		<link rel="stylesheet" type="text/css" href="css/registLogin/main.css">
+
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+
+		<style>
+			.p-t-85 {
+				padding-top: 10px;
+			}
+			
+			.p-b-70 {
+				padding-bottom: 35px;
+			}
+			
+			.m-t-85 {
+				margin-top: 15px;
+			}
+			
+			.container-login100 {
+				padding: 25px;
+			}
+			/*toast信息提示*/
+			
+			.mui-toast-container {
+				bottom: 50% !important;
+			}
+			.mui-toast-message {
+				opacity: 0.6;
+				color: #fff;
+				width: 180px;
+				padding: 70px 5px 10px 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="mui-content">
+			<div class="container-login100">
+				<div class="wrap-login100 p-t-85 p-b-20">
+					<form id="userform">
+						
+						<span class="login100-form-avatar">
+							<img id="img_login_face" src="image/dl.jpg">
+						</span>
+						
+						<span class="login100-form-title p-b-70">
+							<img src="image/title.png" style="width: 120px;">
+						</span>
+
+						<div class="wrap-input100 validate-input m-t-85 m-b-35">
+							<input class="input100" type="text" id="username" name="username" placeholder="用户名/手机号" value="hlh">
+							<span class="focus-input100"></span>
+						</div>
+						
+						<div class="wrap-input100 validate-input  m-t-85 m-b-35">
+							<!-- <button class="mm-btn">忘记密码</button> -->
+							<input class="input100" type="password" id="txt_password" name="password" placeholder="请输入登陆密码" value="123">
+							
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-50">
+							<input class="input100 yanzhengma" type="text" id="txt_yanzhengma" name="yanzhengma" placeholder="验证码">
+							<img src="http://120.79.218.62:8080/login/kaptcha.jpg" class="mm-img">
+							<span class="focus-input100"></span>
+						</div>
+					</form>
+					<div class="container-login100-form-btn login-btn">
+						<button id="login" class="login100-form-btn">
+							登 录
+						</button>
+					</div>
+					<br>
+					<div class="container-login100-form-btn register-btn">
+						<button id="register" class="login100-form-btn">
+							注 册
+						</button>
+					</div>
+					<!-- <button type="button" id="ceshi">1111111</button> -->
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
+			});
+			mui.plusReady(function() {
+				// 禁止返回登陆注册页面
+				mui.back = function() {
+					return false;
+				}
+			})
+			mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
+				mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
+			});
+			var log = console.log.bind(console);
+			const e = (selector) => {
+				return document.querySelector(selector)
+			}
+			
+			// 辅助函数，检查 div是否有该 class，有则移除，没有则添加
+			const toggleClass = (element, className) => {
+				if (element.classList.contains(className)) {
+					element.classList.remove(className)
+				} else {
+					element.classList.add(className)
+				}
+			}
+			
+			mui.plusReady(function() {
+				// 判断用户是否注册登录过，如果本地内存有全局的用户对象，此时直接跳转到首页
+				var userInfo = app.getUserGlobalInfo();
+// 				if (userInfo != null) {
+// 					// 页面跳转
+// 					mui.openWindow("index.html", "index.html");
+// 				}
+				var registerBtn = e("#register")
+				var loginBtn = e(".login-btn")
+				
+				var userform = document.getElementById("userform");
+				var username = document.getElementById("username");
+				var txt_password = document.getElementById("txt_password");
+				var txt_yanzhengma = document.getElementById("txt_yanzhengma");
+				
+				var yanzhengma = e(".yanzhengma")
+				var ceshi = document.getElementById("ceshi")
+				
+				loginBtn.addEventListener("click", function(e){
+					e.preventDefault()
+					log("click here")
+					// 判断用户名是否为空，如果为空则让其获得焦点
+					if (!app.isNotNull(username.value)) {
+						// 获取焦点
+						username.focus();
+					} else if (!app.isNotNull(txt_password.value)) {
+						// 获取焦点
+						txt_password.focus();
+					} else if (!app.isNotNull(txt_yanzhengma.value)) {
+						// 获取焦点
+						txt_yanzhengma.focus();
+					} else {
+						// 判断用户名和密码的长度，进行限制
+// 						if (username.value.length > 12) {
+// 							app.showToast("用户名不能超过12", "error");
+// 							return false;
+// 						} else if (txt_password.value.length > 12) {
+// 							app.showToast("密码不能超过12", "error");
+// 							return false;
+// 						}
+						
+						// 与后端联调
+						// http://120.79.218.62:8080/login/login?account=hlh&password=123&kaptchaReceived=1488
+						s = `?account=${username.value}&password=${txt_password.value}&kaptchaReceived=${txt_yanzhengma.value}`
+						url = app.serverUrl + "login/login" + s
+						mui.ajax(url,{
+							data:{},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒
+							headers: {'Content-Type':'application/json'},	              
+							success: function(d){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								username.blur();
+								txt_password.blur();
+								txt_yanzhengma.blur();
+								rd = d
+								if (d.Message) {
+									token = rd.token
+									// 登录或者注册成功之后，保存全局用户对象到本地缓存
+									var userInfoJson = token;
+									app.setUserGlobalInfo(userInfoJson);
+									// 页面跳转
+									mui.openWindow({
+										url: "index.html",
+										id: "index.html",
+									});
+								}
+							}
+						});
+					}
+				});
+			})
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="js/mui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.js" type="text/javascript" charset="utf-8"></script>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="fontico/iconfont.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	mui.plusReady(function(){
+      		plus.navigator.setStatusBarStyle("light");
+			// 008f7c
+      		plus.navigator.setStatusBarBackground("#4887fb");
+      	});
+    </script>
+</head>
+<body>
+	<!-- <header class="mui-bar mui-bar-nav title"> -->
+	    <!-- <h1 class="mui-title title-color" id="muxin_title"><b>高血压之家</b></h1> -->
+	<!-- </header> -->
+	<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+	  <!-- 菜单容器 -->
+	  <aside id="offCanvasSide" class="mui-off-canvas-left mui-transitioning" style="visibility: visible; z-index: 0;">
+		<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
+		  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
+			<!-- 菜单具体展示内容 -->
+			<span class="div-face">
+				<img class="face" src="image/touxiang.jpg">
+			</span>
+			<ul id="ul-data" class="white">
+				<li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>首页</li>
+				<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
+				<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
+				<li class="li-item"><span class="mui-icon mui-icon-gear"></span>系统设置</li>
+			</ul>
+		  </div>
+		</div>
+	  </aside>
+	  <!-- 主页面容器 -->
+	  <div class="mui-inner-wrap">
+		<!-- 主页面标题 -->
+		<header class="mui-bar mui-bar-nav title">
+		    <h1 class="mui-title title-color" id="muxin_title"><b>小稳</b></h1>
+			<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+	
+	
+	<div class="mui-row">
+		<span class="white" style="background-color: #4887fb;"></span>
+		<div id="div-img-index">
+			<div class="mui-col-xs-4 div-1 white">检测天数</br></br><span class="big-font" style="font-size: x-large;">97</span></br></br>天</div>
+			<div class="mui-col-xs-4 div-2 white">管理家属</br></br><span class="big-font" style="font-size: x-large;">4</span></br></br>人</div>
+			<div class="mui-col-xs-3 div-3 white">上传次数</br></br><span class="big-font" style="font-size: x-large;">291</span></br></br>次</div></img>
+		</div>
+	</div>
+	
+	<div class="div-content">
+		<div class="div-logo" style="text-align: center;">
+			<!-- <span>2019-05-15</span> -->
+			<div class="white" style="position:absolute; z-indent:2; margin-top: 100px;margin-left: 132px;">
+				</br><span style="font-size: xx-large;">150</span></br><span>mm/Hg</span></br></br><span>血压状态</span></br><span>正常</span>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+	
+	 <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
+	 <!-- <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script> -->
+	<script type="text/javascript">
+		mui.init({
+			swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
+		});
+		mui.plusReady(function() {
+			// 禁止返回登陆注册页面
+			mui.back = function() {
+				return false;
+			}
+		})
+		mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
+			mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
+		});
+		$(function(){
+			$(".li-item").click(function() {
+				console.log("fun here")
+				$(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+				$(this).addClass('selected');                            // 添加当前元素的样式
+				console.log("click here")
+			});
+		}); 
+		
+		const e = (selector) => {
+			return document.querySelector(selector)
+		}
+		
+		let report = e('.report')
+		report.addEventListener('tap', (e) => {
+			mui.openWindow({
+				url: "report.html",
+				id: "report.html",
+			});
+		})
+		mui.trigger(report, 'tap');
+		
+		let friends = e('.friends')
+		friends.addEventListener('tap', (e) => {
+			mui.openWindow({
+				url: "friends.html",
+				id: "friends.html",
+			});
+		})
+		mui.trigger(friends, 'tap');
+		
+	</script>
+</body>
+</html>

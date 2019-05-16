@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>血压报告</title>
+			<link rel="stylesheet" type="text/css" href="css/registLogin/util.css">
+		<link rel="stylesheet" type="text/css" href="css/registLogin/main.css">
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.js" type="text/javascript" charset="utf-8"></script>
+		<link href="css/mui.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="fontico/iconfont.css" />
+		<link rel="stylesheet" href="css/header.css" />
+		<script type="text/javascript" charset="utf-8">
+		  	mui.init();
+		  	
+		  	mui.plusReady(function(){
+		  		plus.navigator.setStatusBarStyle("light");
+				// 008f7c
+		  		plus.navigator.setStatusBarBackground("#4887fb");
+		  	});
+		</script>
+	</head>
+	<body>
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<aside id="offCanvasSide" class="mui-off-canvas-left mui-transitioning" style="visibility: visible; z-index: 0;">
+					<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
+					  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
+						<!-- 菜单具体展示内容 -->
+						<span class="div-face">
+							<img class="face" src="image/touxiang.jpg">
+						</span>
+						<ul id="ul-data" class="white">
+							<li class="li-item index"><span class="mui-icon mui-icon-compose"></span>首页</li>
+							<!-- <li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>血压记录</li> -->
+							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
+							<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
+							<li class="li-item"><span class="mui-icon mui-icon-gear"></span>系统设置</li>
+						</ul>
+					  </div>
+					</div>
+			</aside>
+			  <!-- 主页面容器 -->
+			  <div class="mui-inner-wrap">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav title">
+				    <h1 class="mui-title title-color" id="muxin_title"><b>血压报告</b></h1>
+					<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+				</header>
+				<div class="mui-content mui-scroll-wrapper">
+			
+			
+			<div class="mui-row">
+				  <div class="mui-scroll">
+					<div id="echarts-main1" style="width: 370px;height: 310px;"></div>
+					<div id="echarts-main2" style="width: 370px;height: 300px;"></div>
+				  </div>
+				</div>  
+			  </div>
+			</div>
+			
+			 <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
+			 <!-- <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script> -->
+			<script type="text/javascript">
+				mui.init({
+					swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
+				});
+				
+				mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
+					mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
+				});
+				$(function(){
+					$(".li-item").click(function() {
+						console.log("fun here")
+						$(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+						$(this).addClass('selected');                            // 添加当前元素的样式
+						console.log("click here")
+					});
+				}); 
+				const e = (selector) => {
+					return document.querySelector(selector)
+				}
+				
+// 				let markdata = e('.markdata')
+// 				markdata.addEventListener('tap', (e) => {
+// 					console.log("click here");
+// 					mui.openWindow({
+// 						url: "markdata.html",
+// 						id: "markdata.html",
+// 					});
+// 				})
+// 				mui.trigger(markdata, 'tap');
+				
+				let index = e('.index')
+				index.addEventListener('tap', (e) => {
+					console.log("click here");
+					mui.openWindow({
+						url: "index.html",
+						id: "index.html",
+					});
+				})
+				mui.trigger(index, 'tap');
+				
+				let friends = e('.friends')
+				friends.addEventListener('tap', (e) => {
+					console.log("click here");
+					mui.openWindow({
+						url: "friends.html",
+						id: "friends.html",
+					});
+				})
+				mui.trigger(friends, 'tap');
+				
+				var myChart1 = echarts.init(document.getElementById('echarts-main1'));
+				var myChart2 = echarts.init(document.getElementById('echarts-main2'));
+		
+				option1 = {
+					title: {
+						text: '一周血压变化',
+						subtext: '单位：mmHg',
+					},
+					tooltip: {
+						trigger: 'axis'
+					},
+					legend: {
+						data:['舒张压','收缩压']
+					},
+					toolbox: {
+						show: true,
+						feature: {
+							magicType: {type: ['bar', 'line']},
+							saveAsImage: {}
+						}
+					},
+					xAxis:  {
+						type: 'category',
+						boundaryGap: true,
+						data: ['周一','周二','周三','周四','周五','周六','周日']
+					},
+					yAxis: {
+						type: 'value',
+						axisLabel: {
+							formatter: '{value}'
+						},
+						max: 160,
+						min: 60,
+					},
+					series: [
+						{
+							name:'收缩压',
+							type:'line',
+							data:[110, 120, 130, 110, 120, 130, 110],
+							markPoint: {
+								data: [
+									{type: 'max', name: '最大值'},
+									{type: 'min', name: '最小值'}
+								]
+							},
+							markLine: {
+								data: [
+									{type: 'average', name: '平均值'}
+								]
+							}
+						},
+						{
+							name:'舒张压',
+							type:'line',
+							data:[90, 80, 87, 85, 93, 78, 80],
+							markPoint: {
+								data: [
+									{type: 'max', name: '最大值'},
+									{type: 'min', name: '最小值'}
+								]
+							},
+							markLine: {
+								data: [
+									{type: 'average', name: '平均值'}
+								]
+							}
+						}
+					]
+				};
+				
+				var data = genData(50);
+		
+				option2 = {
+					title : {
+						text: '同名数量统计',
+						subtext: '纯属虚构',
+					},
+					tooltip : {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+					},
+					legend: {
+						type: 'scroll',
+						orient: 'vertical',
+						right: 10,
+						top: 20,
+						bottom: 20,
+						data: data.legendData,
+		
+						selected: data.selected
+					},
+					series : [
+						{
+							name: '姓名',
+							type: 'pie',
+							radius : '55%',
+							center: ['40%', '50%'],
+							data: data.seriesData,
+							itemStyle: {
+								emphasis: {
+									shadowBlur: 10,
+									shadowOffsetX: 0,
+									shadowColor: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						}
+					]
+				};
+		
+		
+			function genData(count) {
+				var nameList = [
+					'赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
+				];
+				var legendData = [];
+				var seriesData = [];
+				var selected = {};
+				for (var i = 0; i < 50; i++) {
+					name = Math.random() > 0.65
+						? makeWord(4, 1) + '·' + makeWord(3, 0)
+						: makeWord(2, 1);
+					legendData.push(name);
+					seriesData.push({
+						name: name,
+						value: Math.round(Math.random() * 100000)
+					});
+					selected[name] = i < 6;
+				}
+		
+		    return {
+		        legendData: legendData,
+		        seriesData: seriesData,
+		        selected: selected
+		    };
+		
+		    function makeWord(max, min) {
+		        var nameLen = Math.ceil(Math.random() * max + min);
+		        var name = [];
+		        for (var i = 0; i < nameLen; i++) {
+		            name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
+		        }
+		        return name.join('');
+		    }
+		}
+		
+		        // 使用刚指定的配置项和数据显示图表。
+		        myChart1.setOption(option1);
+				myChart2.setOption(option2);
+			</script>
+	</body>
+</html>
