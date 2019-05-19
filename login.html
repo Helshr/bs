@@ -187,10 +187,13 @@
 								txt_yanzhengma.blur();
 								rd = d
 								if (d.Message) {
-									token = rd.token
+									let token = rd.token
+									let id = rd.id
 									// 登录或者注册成功之后，保存全局用户对象到本地缓存
-									var userInfoJson = token;
-									app.setUserGlobalInfo(userInfoJson);
+									let userInfoToken = token;
+									let userInfoId = id;
+									app.setUserGlobalInfo(userInfoToken);
+									app.setUserGlobalId(userInfoId)
 									// 页面跳转
 									mui.openWindow({
 										url: "index.html",

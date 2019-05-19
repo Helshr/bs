@@ -6,6 +6,7 @@
     <script src="js/mui.min.js"></script>
     <link href="css/mui.css" rel="stylesheet"/>
     <link rel="stylesheet" href="fontico/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
     <link rel="stylesheet" href="css/header.css" />
     <script type="text/javascript" charset="utf-8">
       	mui.init();
@@ -66,6 +67,11 @@
 			</div>
 		</div>
 	</div>
+	<div id="index-logo-href">
+		<span class="shuru"><img src="image/shuru.png"></span>
+		<span class="yinshi"><img src="image/zhongyike.png"></span>
+		<span class="fenxiang"><img src="image/fenxiang.png"></span>
+	</div>
   </div>
 </div>
 	
@@ -93,11 +99,32 @@
 			});
 		}); 
 		
-		const e = (selector) => {
-			return document.querySelector(selector)
-		}
 		
-		let report = e('.report')
+		const shuru = document.querySelector('.shuru')
+		shuru.addEventListener("tap", (e) => {
+			mui.openWindow({
+				url: "luru.html",
+				id: "luru.html",
+			});
+		})
+		
+		const yinshi = document.querySelector('.yinshi')
+		yinshi.addEventListener("tap", (e) => {
+			mui.openWindow({
+				url: "yinshi.html",
+				id: "yinshi.html",
+			});
+		})
+		
+		const fenxiang = document.querySelector('.fenxiang')
+		fenxiang.addEventListener("tap", (e) => {
+			mui.openWindow({
+				url: "fenxiang.html",
+				id: "fenxiang.html",
+			});
+		})
+		
+		let report = document.querySelector('.report')
 		report.addEventListener('tap', (e) => {
 			mui.openWindow({
 				url: "report.html",
@@ -106,7 +133,7 @@
 		})
 		mui.trigger(report, 'tap');
 		
-		let friends = e('.friends')
+		let friends = document.querySelector('.friends')
 		friends.addEventListener('tap', (e) => {
 			mui.openWindow({
 				url: "friends.html",
@@ -115,7 +142,7 @@
 		})
 		mui.trigger(friends, 'tap');
 		
-		let setting = e('.setting')
+		let setting = document.querySelector('.setting')
 		setting.addEventListener('tap', (e) => {
 			mui.openWindow({
 				url: "setting.html",

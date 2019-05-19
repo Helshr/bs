@@ -8,7 +8,6 @@
 		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
 		<script src="js/mui.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<link href="css/mui.css" rel="stylesheet"/>
@@ -107,10 +106,11 @@
 					const container = document.querySelector('.body-list')
 					console.log(url)
 					$.ajax({url: url,success:function(result){
-						d = result.data
+						console.log(JSON.stringify(result))
+						let d = result.data
 						container.innerHTML = ""
 						for (var i = 0; i < d.length; i++) {
-							f = d[i]
+							let f = d[i]
 							let id = f.id
 							let name = f.gdname
 							let phone = f.gdphone
@@ -160,6 +160,22 @@
 					})
 				}
 				deleteItemEvent()
+				
+				const ajax = function(method, path, data, reseponseCallback) {
+					let r = new XMLHttpRequest()
+					r.open(method, path, true)
+					r.setRequestHeader('Content-Type', 'application/json')
+					r.onreadystatechange = function() {
+						// readyState == 4 表示请求结束并且得到了服务器给的响应数据
+						if (r.readyState === 4) {
+							console.log('state change', r, r.status, r.response)
+							reseponseCallback(r.response)
+						} else {
+							console.log('change')
+						}
+					}
+					r.send(data)
+				}
 				
 				
 				// 更新事件
@@ -213,6 +229,39 @@
 				}
 				updateItemEvent()
 				
+				addButton.addEventListener('tap', (e) => {
+					const n = name.value
+					const p = phone.value
+					const r = relation.value
+					s = `?gdname=${n}&gdphone=${p}&kinship=${r}&token=${app.getUserGlobalInfo()}`
+					url = app.serverUrl + "guardian/save" + s
+					console.log(url)
+					if (addButton.textContent == '添加') {
+						console.log("&&&&&&&&& 添加")
+						mui.ajax(url,{
+							data:{},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒
+							headers: {'Content-Type':'application/json'},	              
+							success: function(d){
+								console.log("**********" + d)
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								rd = d
+								if (d.Message) {
+									name.value = ""
+									phone.value = ""
+									relation.value = ""
+									getFriendsList()
+									mui.alert("添加成功")
+								} else {
+									mui.alert("添加失败")
+								}
+							}
+						});
+					}
+				})
+				
 				let index = e('.index')
 				index.addEventListener('tap', (e) => {
 					mui.openWindow({
@@ -247,39 +296,6 @@
 						`
 					return t
 				}				
-			
-				addButton.addEventListener('tap', (e) => {
-					const n = name.value
-					const p = phone.value
-					const r = relation.value
-					
-					s = `?gdname=${n}&gdphone=${p}&kinship=${r}&token=${app.getUserGlobalInfo()}`
-					url = app.serverUrl + "guardian/save" + s
-					if (addButton.textContent == '添加') {
-						console.log("&&&&&&&&& 添加")
-						mui.ajax(url,{
-							data:{},
-							dataType:'json',//服务器返回json格式数据
-							type:'post',//HTTP请求类型
-							timeout:10000,//超时时间设置为10秒
-							headers: {'Content-Type':'application/json'},	              
-							success: function(d){
-								//服务器返回响应，根据响应结果，分析是否登录成功；
-								rd = d
-								if (d.Message) {
-									name.value = ""
-									phone.value = ""
-									relation.value = ""
-									getFriendsList()
-									mui.alert("添加成功")
-								} else {
-									mui.alert("添加失败")
-								}
-							}
-						});
-					}
-				})
-				
 			</script>
 	</body>
 </html>

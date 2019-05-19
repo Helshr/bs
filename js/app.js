@@ -67,6 +67,25 @@ window.app = {
 	},
 	
 	/**
+	 * 保存用户的全局对象的id
+	 * @param {Object} user
+	 */
+	setUserGlobalId: function(userId) {
+		var userIdStr = JSON.stringify(userId);
+		// plus.storage.setItem("userInfo", userInfoStr);
+		localStorage.setItem("userId", userIdStr)
+	},
+	
+	/**
+	 * 获取用户的id
+	 */
+	getUserGlobalId: function() {
+		// var userInfoStr = plus.storage.getItem("userInfo");
+		var userIdStr = localStorage.getItem("userId");
+		return JSON.parse(userIdStr);
+	},
+	
+	/**
 	 * 登出后，移除用户全局对象
 	 */
 	userLogout: function() {

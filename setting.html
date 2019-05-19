@@ -53,15 +53,15 @@
 					<div class="mui-input-group">
 						<div class="mui-input-row">
 							<label>用户名：</label>
-							<input type="text" class="mui-input-clear user-name" placeholder="用户名">
+							<input type="text" class="mui-input-clear user-name" placeholder="用户名" disabled="true" style="color: grey">
 						</div>
 						<div class="mui-input-row">
 							<label>用户电话：</label>
-							<input type="text" class="mui-input-clear user-phone" placeholder="用户电话">
+							<input type="text" class="mui-input-clear user-phone" placeholder="用户电话" disabled="true" style="color: grey">
 						</div>
 						<div class="mui-input-row">
 							<label>用户年龄：</label>
-							<input type="text" class="mui-input-clear user-age" placeholder="用户年龄">
+							<input type="text" class="mui-input-clear user-age" placeholder="用户年龄" disabled="true" style="color: grey">
 						</div>
 						<!-- <button class="test-list">测试列表</button> -->
 					</div>
@@ -70,7 +70,11 @@
 					<div class="mui-input-group">
 					  <div class="mui-input-row">
 						<label>修改密码：</label>
-						<input type="text" class="mui-input-clear update-password" placeholder="新密码">
+						<input type="password" class="mui-input-clear update-password" placeholder="新密码">
+					  </div>
+					  <div class="mui-input-row">
+						<label>确认密码：</label>
+						<input type="password" class="mui-input-clear update-password-sure" placeholder="再次确认密码">
 					  </div>
 					  <div class="mui-button-row">
 						<button type="button" class="mui-btn mui-btn-primary update-password-btn" >更新密码</button>
@@ -118,19 +122,25 @@
 				const phone = e('.user-phone')
 				const age = e('.user-age')
 				const newPassword = e('.update-password')
+				const surePassword = e('.update-password-sure')
 				const passBtn = e('.update-password-btn')
 				
 				passBtn.addEventListener("tap", (e) => {
 					let p = newPassword.value
 					let s = `?token=${app.getUserGlobalInfo()}&password=${p}`
 					let url = app.serverUrl + "patient/updatePassword" + s
-					ajax("POST", url, {}, (r) => {
-						d = JSON.parse(r)
-						if (d.Message) {
-							alert("修改密码成功")
-							newPassword.value = ""
-						}
-					})
+					let sp = surePassword.value
+					if (p === sp) {
+						ajax("POST", url, {}, (r) => {
+							d = JSON.parse(r)
+							if (d.Message) {
+								alert("修改密码成功")
+								newPassword.value = ""
+							}
+						})
+					} else {
+						alert("修改密码失败，两次密码输入不一致")
+					}
 				})
  				
 				const getUserData = () => {
