@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="fontico/iconfont.css" />
 		<link rel="stylesheet" href="css/header.css" />
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="utils.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">	
 		  	mui.plusReady(function(){
 		  		plus.navigator.setStatusBarStyle("light");
@@ -28,9 +29,10 @@
 					<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
 					  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
 						<!-- 菜单具体展示内容 -->
-						<span class="div-face">
-							<img class="face" src="image/touxiang.jpg">
-						</span>
+						<div class="div-face" style="margin-top: 50px;">
+							<span class="white"><span style="font-size: x-large;"><span class="lw"></span> ~ <span class="hw"></span></span></br><span class="wdate"></span></span>
+							<img src="image/little-rain.png" style="width: 50px;">
+						</div>
 						<ul id="ul-data" class="white">
 							<li class="li-item index"><span class="mui-icon mui-icon-compose"></span>首页</li>
 							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
@@ -121,10 +123,29 @@
 					}});
 				}
 				 
-				mui.plusReady(getFriendsList)
+				mui.plusReady(() => {
+					getFriendsList()
+					getWether()
+				})
 				
-				const e = (selector) => {
-					return document.querySelector(selector)
+				const getWether = () => {
+					const lw = e('.lw')
+					const hw = e('.hw')
+					const wdate = e('.wdate')
+					
+					let url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101270101"
+					ajax('GET', url, {}, (r) => {
+						let data = JSON.parse(r)
+						let d = data["data"]["forecast"][0]
+						let hwv = d.high.split('温')[1]
+						let lwv = d.low.split('温')[1]
+						let type = d.type
+						let tv = d.date
+						
+						lw.innerHTML = lwv
+						hw.innerHTML = hwv
+						wdate.innerHTML = type
+					}) 
 				}
 				
 				const name = e('.friend-name')
@@ -161,23 +182,6 @@
 				}
 				deleteItemEvent()
 				
-				const ajax = function(method, path, data, reseponseCallback) {
-					let r = new XMLHttpRequest()
-					r.open(method, path, true)
-					r.setRequestHeader('Content-Type', 'application/json')
-					r.onreadystatechange = function() {
-						// readyState == 4 表示请求结束并且得到了服务器给的响应数据
-						if (r.readyState === 4) {
-							console.log('state change', r, r.status, r.response)
-							reseponseCallback(r.response)
-						} else {
-							console.log('change')
-						}
-					}
-					r.send(data)
-				}
-				
-				
 				// 更新事件
 				const updateItemEvent = () => {
 					// 为父节点绑定事件，进行事件委托
@@ -203,7 +207,6 @@
 							
 							addButton.textContent = "修改"
 							if (addButton.textContent == '修改') {
-								console.log("@@@@@@@@@ 修改")
 								if (eleId !== undefined) {
 									addButton.addEventListener("tap", (e) => {
 										let n = name.value
@@ -245,7 +248,7 @@
 							timeout:10000,//超时时间设置为10秒
 							headers: {'Content-Type':'application/json'},	              
 							success: function(d){
-								console.log("**********" + d)
+								console.log("**********" + JSON.stringify(d))
 								//服务器返回响应，根据响应结果，分析是否登录成功；
 								rd = d
 								if (d.Message) {
@@ -267,6 +270,7 @@
 					mui.openWindow({
 						url: "index.html",
 						id: "index.html",
+						createNew:true,
 					});
 				})
 				mui.trigger(index, 'tap');
@@ -276,6 +280,7 @@
 					mui.openWindow({
 						url: "report.html",
 						id: "report.html",
+						createNew:true,
 					});
 				})
 				mui.trigger(report, 'tap');
@@ -285,6 +290,7 @@
 					mui.openWindow({
 						url: "setting.html",
 						id: "setting.html",
+						createNew:true,
 					});
 				})
 				mui.trigger(setting, 'tap');
@@ -295,7 +301,7 @@
 						<button class="mui-btn mui-btn-danger mui-btn-outlined todo-delete-cell" data-id=${id}>删除</button></tr> \
 						`
 					return t
-				}				
+				}	
 			</script>
 	</body>
 </html>

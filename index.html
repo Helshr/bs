@@ -2,155 +2,313 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <script src="js/mui.min.js"></script>
     <link href="css/mui.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="fontico/iconfont.css" />
-	<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
-    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="fontico/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+    <link rel="stylesheet" href="css/header.css"/>
+    <script src="utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
-      	mui.init();
-      	
-      	mui.plusReady(function(){
-      		plus.navigator.setStatusBarStyle("light");
-			// 008f7c
-      		plus.navigator.setStatusBarBackground("#4887fb");
-      	});
+        mui.init();
+
+        mui.plusReady(function () {
+            plus.navigator.setStatusBarStyle("light");
+            // 008f7c
+            plus.navigator.setStatusBarBackground("#4887fb");
+        });
     </script>
 </head>
 <body>
-	<!-- <header class="mui-bar mui-bar-nav title"> -->
-	    <!-- <h1 class="mui-title title-color" id="muxin_title"><b>高血压之家</b></h1> -->
-	<!-- </header> -->
-	<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
-	  <!-- 菜单容器 -->
-	  <aside id="offCanvasSide" class="mui-off-canvas-left mui-transitioning" style="visibility: visible; z-index: 0;">
-		<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
-		  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
-			<!-- 菜单具体展示内容 -->
-			<span class="div-face">
-				<img class="face" src="image/touxiang.jpg">
-			</span>
-			<ul id="ul-data" class="white">
-				<li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>首页</li>
-				<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
-				<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
-				<li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
-			</ul>
-		  </div>
-		</div>
-	  </aside>
-	  <!-- 主页面容器 -->
-	  <div class="mui-inner-wrap">
-		<!-- 主页面标题 -->
-		<header class="mui-bar mui-bar-nav title">
-		    <h1 class="mui-title title-color" id="muxin_title"><b>小稳</b></h1>
-			<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-		</header>
-		<div class="mui-content mui-scroll-wrapper">
-	
-	
-	<div class="mui-row">
-		<span class="white" style="background-color: #4887fb;"></span>
-		<div id="div-img-index">
-			<div class="mui-col-xs-4 div-1 white">检测天数</br></br><span class="big-font" style="font-size: x-large;">97</span></br></br>天</div>
-			<div class="mui-col-xs-4 div-2 white">管理家属</br></br><span class="big-font" style="font-size: x-large;">4</span></br></br>人</div>
-			<div class="mui-col-xs-3 div-3 white">上传次数</br></br><span class="big-font" style="font-size: x-large;">291</span></br></br>次</div></img>
-		</div>
-	</div>
-	
-	<div class="div-content">
-		<div class="div-logo" style="text-align: center;">
-			<!-- <span>2019-05-15</span> -->
-			<div class="white" style="position:absolute; z-indent:2; margin-top: 100px;margin-left: 132px;">
-				</br><span style="font-size: xx-large;">150</span></br><span>mm/Hg</span></br></br><span>血压状态</span></br><span>正常</span>
-			</div>
-		</div>
-	</div>
-	<div id="index-logo-href">
-		<span class="shuru"><img src="image/shuru.png"></span>
-		<span class="yinshi"><img src="image/zhongyike.png"></span>
-		<span class="fenxiang"><img src="image/fenxiang.png"></span>
-	</div>
-  </div>
-</div>
-	
-	 <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
-	 <!-- <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script> -->
-	<script type="text/javascript">
-		mui.init({
-			swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
-		});
-// 		mui.plusReady(function() {
-// 			// 禁止返回登陆注册页面
-// 			mui.back = function() {
-// 				return false;
-// 			}
-// 		})
-		mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
-			mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
-		});
-		$(function(){
-			$(".li-item").click(function() {
-				console.log("fun here")
-				$(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
-				$(this).addClass('selected');                            // 添加当前元素的样式
-				console.log("click here")
-			});
-		}); 
-		
-		
-		const shuru = document.querySelector('.shuru')
-		shuru.addEventListener("tap", (e) => {
-			mui.openWindow({
-				url: "luru.html",
-				id: "luru.html",
-			});
-		})
-		
-		const yinshi = document.querySelector('.yinshi')
-		yinshi.addEventListener("tap", (e) => {
-			mui.openWindow({
-				url: "yinshi.html",
-				id: "yinshi.html",
-			});
-		})
-		
-		const fenxiang = document.querySelector('.fenxiang')
-		fenxiang.addEventListener("tap", (e) => {
-			mui.openWindow({
-				url: "fenxiang.html",
-				id: "fenxiang.html",
-			});
-		})
-		
-		let report = document.querySelector('.report')
-		report.addEventListener('tap', (e) => {
-			mui.openWindow({
-				url: "report.html",
-				id: "report.html",
-			});
-		})
-		mui.trigger(report, 'tap');
-		
-		let friends = document.querySelector('.friends')
-		friends.addEventListener('tap', (e) => {
-			mui.openWindow({
-				url: "friends.html",
-				id: "friends.html",
-			});
-		})
-		mui.trigger(friends, 'tap');
-		
-		let setting = document.querySelector('.setting')
-		setting.addEventListener('tap', (e) => {
-			mui.openWindow({
-				url: "setting.html",
-				id: "setting.html",
-			});
-		})
-		mui.trigger(friends, 'tap');
-		
-	</script>
+<!-- <header class="mui-bar mui-bar-nav title"> -->
+<!-- <h1 class="mui-title title-color" id="muxin_title"><b>高血压之家</b></h1> -->
+<!-- </header> -->
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+    <!-- 菜单容器 -->
+    <aside id="offCanvasSide" class="mui-off-canvas-left mui-transitioning" style="visibility: visible; z-index: 0;">
+        <div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
+            <div class="mui-scroll"
+                 style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
+                <!-- 菜单具体展示内容 -->
+                <div class="div-face" style="margin-top: 50px;">
+                    <span class="white"><span style="font-size: x-large;"><span class="lw"></span> ~ <span
+                            class="hw"></span></span></br><span class="wdate"></span></span>
+                    <img src="image/little-rain.png" style="width: 50px;">
+                </div>
+                <ul id="ul-data" class="white">
+                    <li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>首页</li>
+                    <li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
+                    <li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
+                    <li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!-- 主页面容器 -->
+    <div class="mui-inner-wrap">
+        <!-- 主页面标题 -->
+        <header class="mui-bar mui-bar-nav title">
+            <h1 class="mui-title title-color" id="muxin_title"><b>小稳</b></h1>
+            <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+        </header>
+        <div class="mui-content mui-scroll-wrapper">
+
+
+            <div class="mui-row">
+                <div id="div-img-index">
+                    <div class="mui-col-xs-4 div-1 white">良好天数</br></br><span class="big-font lhts"
+                                                                              style="font-size: x-large;"></span></br></br>
+                        天
+                    </div>
+                    <div class="mui-col-xs-4 div-2 white">管理家属</br></br><span class="big-font gljs"
+                                                                              style="font-size: x-large;"></span></br></br>
+                        人
+                    </div>
+                    <div class="mui-col-xs-3 div-3 white">上传次数</br></br><span class="big-font sccs"
+                                                                              style="font-size: x-large;"></span></br></br>
+                        次
+                    </div>
+                    </img>
+                </div>
+            </div>
+
+            <div class="div-content">
+                <div id="" style="text-align: center; margin-top: 20px;">
+                    <b style="margin-top: -20px;">上次记录时间</br> <b class="sctime" style="color: #0a91ff"></b></b>
+                    </br>
+                    </br>
+                    <!-- 高压 -->
+                    <b style="margin-top: -20px;">上次记录数据</b>
+                    </br>
+                    <span><b>收缩压： <span style="color: #0a91ff" class="hpressure"></span></b></span>
+                    <!-- </br> -->
+                    &nbsp
+                    <span><b>舒张压： <span style="color: #0a91ff" class="lpressure"></span></b></span>
+                </div>
+                <div class="div-logo" style="text-align: center; margin-top: 20px;">
+                    <div class="" style="position:relative; margin-top: 170px; margin-left: -20px;">
+                        <div class="container">
+                            <div class="wave" ></div>
+                        </div>
+                        </br>
+                        <span class="" style="color: #f2f2f2; position: absolute;"><b style="font-size: 70px; margin-left: -45px; margin-bottom: 100px;">86</b><b style="font-size: xx-large;">分</b></span>
+                        <span class="white" style="position: absolute; margin-left: -38px; margin-top: 90px;"><span>血压状态</span></br><span class="xystatus"></span></span>
+                    </div>
+                </div>
+                <div z-index="2" id="index-logo-href" class="mui-row"
+                     style="text-align: center; background-color: #4887fb; height: 600px; margin-top: -150px;">
+                    <div style="display: inline; margin-right: 75px; margin-left: 65px;">
+                        <span class="shuru mui-col-sm-4 white"><img src="image/shuru.png" style=""></span>
+                    </div>
+                    <div style="display: inline; margin-right: 80px;">
+                        <span class="yinshi mui-col-sm-4 white"><img src="image/yinshi.png" style=""></span>
+                    </div>
+                    <div style="display: inline; margin-right: 70px;">
+                        <span class="fenxiang mui-col-sm-4 white"><img src="image/fenxiang.png" style=""></span>
+                    </div>
+                    <br>
+                    <span class="white" style="margin-left: -5px;">数据录入</span>
+                    <span class="white" style="margin-left: 40px;">饮食推荐</span>
+                    <span class="white" style="margin-left: 40px;">动态分享</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
+    <!-- <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script> -->
+    <script type="text/javascript">
+        mui.init({
+            swipeback: true,//默认左滑返回，可以达到offCanvas.hide的目的
+        });
+        // 		mui.plusReady(function() {
+        // 			// 禁止返回登陆注册页面
+        // 			mui.back = function() {
+        // 				return false;
+        // 			}
+        // 		})
+        // location.reload()
+        mui('body').on('swiperight', '.mui-content', function () {//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
+            mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏
+        });
+        $(function () {
+            $(".li-item").click(function () {
+                console.log("fun here")
+                $(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+                $(this).addClass('selected');                            // 添加当前元素的样式
+                console.log("click here")
+            });
+        });
+
+        const shuru = document.querySelector('.shuru')
+        shuru.addEventListener("tap", (e) => {
+            mui.openWindow({
+                url: "luru.html",
+                id: "luru.html",
+                createNew: true,
+            });
+        })
+
+        const yinshi = document.querySelector('.yinshi')
+        yinshi.addEventListener("tap", (e) => {
+            mui.openWindow({
+                url: "yinshi.html",
+                id: "yinshi.html",
+                createNew: true,
+            });
+        })
+
+        const fenxiang = document.querySelector('.fenxiang')
+        fenxiang.addEventListener("tap", (e) => {
+            location.href = "http://148.70.54.236/"
+        })
+
+        let report = document.querySelector('.report')
+        report.addEventListener('tap', (e) => {
+            mui.openWindow({
+                url: "report.html",
+                id: "report.html",
+                createNew: true,
+            });
+        })
+        mui.trigger(report, 'tap');
+
+        let friends = document.querySelector('.friends')
+        friends.addEventListener('tap', (e) => {
+            mui.openWindow({
+                url: "friends.html",
+                id: "friends.html",
+                createNew: true,
+            });
+        })
+        mui.trigger(friends, 'tap');
+
+        let setting = document.querySelector('.setting')
+        setting.addEventListener('tap', (e) => {
+            mui.openWindow({
+                url: "setting.html",
+                id: "setting.html",
+                createNew: true,
+            });
+        })
+        mui.trigger(friends, 'tap');
+
+        const renderData = () => {
+            let lhts = e('.lhts')
+            let gljs = e('.gljs')
+            let sccs = e('.sccs')
+            let hpressure = e('.hpressure')
+            let lpressure = e('.lpressure')
+            let xystatus = e('.xystatus')
+            let sctime = e('.sctime')
+
+            let s = `?patientid=${app.getUserGlobalId()}`
+            let url = app.serverUrl + "hypertension/indexData" + s
+            console.log(url)
+
+            ajax('GET', url, {}, (r) => {
+                console.log(JSON.stringify(r))
+                let d = JSON.parse(r)
+                let lh = d.lianghao
+                let gv = d.jiashugeshu
+                let sv = d.jilugeshu
+                let hv = d.avgHpressure.toString()
+                let lv = d.avgLpressure.toString()
+                let xysv = d.result1
+                let time = d.lastTime
+
+                lhts.innerHTML = lh
+                gljs.innerHTML = gv
+                sccs.innerHTML = sv
+                hpressure.innerHTML = hv.slice(0, 3)
+                lpressure.innerHTML = hv.slice(0, 2)
+                xystatus.innerHTML = xysv
+                sctime.innerHTML = time
+            })
+        }
+
+        const getWether = () => {
+            const lw = e('.lw')
+            const hw = e('.hw')
+            const wdate = e('.wdate')
+
+            let url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101270101"
+            ajax('GET', url, {}, (r) => {
+                let data = JSON.parse(r)
+                let d = data["data"]["forecast"][0]
+                let hwv = d.high.split('温')[1]
+                let lwv = d.low.split('温')[1]
+                let type = d.type
+                let tv = d.date
+
+                lw.innerHTML = lwv
+                hw.innerHTML = hwv
+                wdate.innerHTML = type
+            })
+        }
+
+        mui.plusReady(() => {
+            renderData()
+            getWether()
+        })
+    </script>
+    <style type="text/css">
+        .container {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            padding: 5px;
+            border: 5px solid #0a91ff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background-color: #0a91ff;
+            border-radius: 100%;
+        }
+
+        .wave::before, .wave::after {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            top: 0;
+            left: 50%;
+            /* 4887fb */
+            background-color: rgba(255, 255, 255, 0.4);
+            /* background-color: #4887fb; */
+            border-radius: 45%;
+            transform: translate(-50%, -70%) rotate(0);
+            animation: rotate 6s linear infinite;
+            z-index: 10;
+        }
+
+        .wave::after {
+            border-radius: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translate(-50%, -70%) rotate(0);
+            animation: rotate 5s linear -5s infinite;
+            z-index: 20;
+        }
+
+        @keyframes rotate {
+            50% {
+                transform: translate(-50%, -73%) rotate(180deg);
+            }
+            100% {
+                transform: translate(-50%, -70%) rotate(360deg);
+            }
+        }
+    </style>
 </body>
 </html>
+ 

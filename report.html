@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="fontico/iconfont.css" />
 		<link rel="stylesheet" href="css/header.css" />
 		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="utils.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 		  	mui.init();
 		  	
@@ -31,12 +32,12 @@
 					<div id="offCanvasSideScroll" class="mui-scroll-wrapper" data-scroll="1">
 					  <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms;">
 						<!-- 菜单具体展示内容 -->
-						<span class="div-face">
-							<img class="face" src="image/touxiang.jpg">
-						</span>
+						<div class="div-face" style="margin-top: 50px;">
+							<span class="white"><span style="font-size: x-large;"><span class="lw"></span> ~ <span class="hw"></span></span></br><span class="wdate"></span></span>
+							<img src="image/little-rain.png" style="width: 50px;">
+						</div>
 						<ul id="ul-data" class="white">
 							<li class="li-item index"><span class="mui-icon mui-icon-compose"></span>首页</li>
-							<!-- <li class="li-item markdata"><span class="mui-icon mui-icon-compose"></span>血压记录</li> -->
 							<li class="li-item friends"><span class="mui-icon mui-icon-personadd"></span>成员管理</li>
 							<li class="li-item report"><span class="mui-icon mui-icon-compose"></span>血压报告</li>
 							<li class="li-item setting"><span class="mui-icon mui-icon-gear"></span>用户设置</li>
@@ -56,15 +57,15 @@
 			
 			<div class="mui-row">
 				  <div class="mui-scroll">
-					<div id="echarts-main1" style="width: 370px;height: 310px;"></div>
-					<div id="echarts-main2" style="width: 370px;height: 300px;"></div>
+					<div id="echarts-main1" style="width: 370px;height: 310px; margin-top: 30px;"></div>
+					<div id="echarts-main2" style="width: 370px;height: 300px; margin-top: 20px;"></div>
 				  </div>
 				</div>  
 			  </div>
 			</div>
 			
 			 <script src="js/jq.js" type="text/javascript" charset="utf-8"></script>
-			 <!-- <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script> -->
+			 <script src="js/echarts.js" type="text/javascript" charset="utf-8"></script>
 			<script type="text/javascript">
 				mui.init({
 					swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
@@ -80,20 +81,7 @@
 						$(this).addClass('selected');                            // 添加当前元素的样式
 						console.log("click here")
 					});
-				}); 
-				const e = (selector) => {
-					return document.querySelector(selector)
-				}
-				
-// 				let markdata = e('.markdata')
-// 				markdata.addEventListener('tap', (e) => {
-// 					console.log("click here");
-// 					mui.openWindow({
-// 						url: "markdata.html",
-// 						id: "markdata.html",
-// 					});
-// 				})
-// 				mui.trigger(markdata, 'tap');
+				});
 				
 				let index = e('.index')
 				index.addEventListener('tap', (e) => {
@@ -125,6 +113,7 @@
 				mui.trigger(setting, 'tap');
 				
 				const getData1 = () => {
+					console.log("success ")
 					let s = `?patientid=${app.getUserGlobalId()}`
 					let url = app.serverUrl + "hypertension/listDay" + s
 					console.log(url)
@@ -143,8 +132,7 @@
 							lpList.push(lp)
 							days.push(day)
 						}
-						// let op1 = getOp1(days, hpList, lpList)
-						let op1 = getOp2()
+						let op1 = getOp1(days, hpList, lpList)
 						var myChart1 = echarts.init(document.getElementById('echarts-main1'));
 						myChart1.setOption(op1);
 					}});
@@ -220,60 +208,51 @@
 				}
 		
 				const getOp2 = (levelNameList, levelValueList) => {
-					return  {
+					return {
 						title: {
-							text: '7天血压变化',
-							subtext: '单位：mmHg',
+							text: '血压分级',
+							subtext: '单位/次',
 						},
-						tooltip: {
-							trigger: 'axis'
-						},
-						legend: {
-							data:['舒张压','收缩压']
-						},
-						toolbox: {
-							show: true,
-							feature: {
-								magicType: {type: ['bar', 'line']},
-								saveAsImage: {}
+						color: ['#3398DB'],
+						tooltip : {
+							trigger: 'axis',
+							axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+								type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
 							}
 						},
-						xAxis:  {
-							type: 'category',
-							boundaryGap: true,
-							data: levelNameList
+						grid: {
+							left: '3%',
+							right: '4%',
+							bottom: '3%',
+							containLabel: true
 						},
-						yAxis: {
-							type: 'value',
-							axisLabel: {
-								formatter: '{value}'
-							},
-							max: 160,
-							min: 60,
-						},
-						series: [
+						xAxis : [
 							{
-								name:'收缩压',
-								type:'line',
-								data:levelValueList,
-								markPoint: {
-									data: [
-										{type: 'max', name: '最大值'},
-										{type: 'min', name: '最小值'}
-									]
-								},
-								markLine: {
-									data: [
-										{type: 'average', name: '平均值'}
-									]
+								type : 'category',
+								data : levelNameList,
+								axisTick: {
+									alignWithLabel: true
 								}
 							}
+						],
+						yAxis : [
+							{
+								type : 'value'
+							}
+						],
+						series : [
+							{
+								name:'',
+								type:'bar',
+								barWidth: '60%',
+								data:levelValueList
+							}
 						]
-					};
-				
+					};				
 				}
 		
 				const getData2 = () => {
+					console.log("here")
 					let s = `?patientid=${app.getUserGlobalId()}`
 					let url = app.serverUrl + "hypertension/listLevel" + s
 					console.log(url)
@@ -299,7 +278,31 @@
 					getData2()
 				}
 				
-				mui.plusReady(drawOp)
+				const getWether = () => {
+					const lw = e('.lw')
+					const hw = e('.hw')
+					const wdate = e('.wdate')
+					
+					let url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101270101"
+					ajax('GET', url, {}, (r) => {
+						log("********" + r)
+						let data = JSON.parse(r)
+						let d = data["data"]["forecast"][0]
+						let hwv = d.high.split('温')[1]
+						let lwv = d.low.split('温')[1]
+						let type = d.type
+						let tv = d.date
+						
+						lw.innerHTML = lwv
+						hw.innerHTML = hwv
+						wdate.innerHTML = type
+					}) 
+				}
+				
+				mui.plusReady(() => {
+					drawOp()
+					getWether()
+				})
 		        // 使用刚指定的配置项和数据显示图表。
 			</script>
 	</body>

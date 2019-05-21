@@ -7,7 +7,7 @@
 		<title></title>
 		<script src="js/mui.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		
+		<script src="utils.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="css/registLogin/util.css">
 		<link rel="stylesheet" type="text/css" href="css/registLogin/main.css">
 
@@ -36,34 +36,33 @@
 			.mui-toast-container {
 				bottom: 50% !important;
 			}
-			.mui-toast-message {
+			/* .mui-toast-message {
 				opacity: 0.6;
 				color: #fff;
 				width: 180px;
 				padding: 70px 5px 10px 5px;
-			}
+			} */
 		</style>
 	</head>
 
 	<body>
-
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
 		<div class="mui-content">
 			<div class="container-login100">
 				<div class="wrap-login100 p-t-85 p-b-20">
 					<form id="userform">
-						
 						<span class="login100-form-avatar">
-							<img id="img_login_face" src="image/dl.jpg">
+							<img id="img_login_face" src="image/dl.png">
 						</span>
 						
 						<span class="login100-form-title p-b-70">
-							<img src="image/title.png" style="width: 120px;">
+							<!-- <img src="image/title.png" style="width: 120px;"> -->
 						</span>
 
 						<div class="wrap-input100 validate-input m-t-85 m-b-35">
 							<input class="input100" type="text" id="username" name="username" placeholder="用户名/手机号">
 							<span class="focus-input100"></span>
-						</div>
+						</div> 
 						
 						<div class="wrap-input100 validate-input  m-t-85 m-b-35">
 							<!-- <button class="mm-btn">忘记密码</button> -->
@@ -74,7 +73,7 @@
 
 						<div class="wrap-input100 validate-input m-b-50">
 							<input class="input100 yanzhengma" type="text" id="txt_yanzhengma" name="yanzhengma" placeholder="验证码">
-							<img src="http://120.79.218.62:8080/login/kaptcha.jpg" class="mm-img">
+							<span><img src="http://120.79.218.62:8080/login/kaptcha.jpg" class="mm-img" id="mm-img"></span>
 							<span class="focus-input100"></span>
 						</div>
 					</form>
@@ -89,28 +88,26 @@
 							注 册
 						</button>
 					</div>
-					<!-- <button type="button" id="ceshi">1111111</button> -->
 				</div>
 			</div>
+		</div>
 		</div>
 		<script type="text/javascript" src="js/app.js" ></script>
 		<script type="text/javascript">
 			mui.init({
 				swipeback:true//默认左滑返回，可以达到offCanvas.hide的目的
 			});
+			
 			mui.plusReady(function() {
 				// 禁止返回登陆注册页面
 				mui.back = function() {
 					return false;
 				}
 			})
+			
 			mui('body').on('swiperight','.mui-content',function(){//绑定右滑事件，当mui-content上发生右滑时（菜单原本是隐藏状//态的）
 				mui('.mui-off-canvas-wrap').offCanvas('show');  //显示侧栏	
 			});
-			var log = console.log.bind(console);
-			const e = (selector) => {
-				return document.querySelector(selector)
-			}
 			
 			// 辅助函数，检查 div是否有该 class，有则移除，没有则添加
 			const toggleClass = (element, className) => {
@@ -128,6 +125,7 @@
 					// 页面跳转
 					mui.openWindow("index.html", "index.html");
 				}
+				
 				var registerBtn = e("#register")
 				registerBtn.addEventListener("tap", (e) => {
 					mui.openWindow({
@@ -136,14 +134,12 @@
 					});
 				})
 				
-				
 				var loginBtn = e(".login-btn")
 				
 				var userform = document.getElementById("userform");
 				var username = document.getElementById("username");
 				var txt_password = document.getElementById("txt_password");
 				var txt_yanzhengma = document.getElementById("txt_yanzhengma");
-				
 				var yanzhengma = e(".yanzhengma")
 				var ceshi = document.getElementById("ceshi")
 				
@@ -181,6 +177,7 @@
 							timeout:10000,//超时时间设置为10秒
 							headers: {'Content-Type':'application/json'},	              
 							success: function(d){
+								console.log(JSON.stringify(d))
 								//服务器返回响应，根据响应结果，分析是否登录成功；
 								username.blur();
 								txt_password.blur();
@@ -194,16 +191,25 @@
 									let userInfoId = id;
 									app.setUserGlobalInfo(userInfoToken);
 									app.setUserGlobalId(userInfoId)
+									console.log("******** id" + userInfoId)
 									// 页面跳转
 									mui.openWindow({
 										url: "index.html",
 										id: "index.html",
 									});
+								} else {
+									alert(d.session_user)
 								}
 							}
 						});
 					}
 				});
+			})
+			var mmImg = document.getElementById('.mm-img')
+				
+			mmImg.addEventListener("tap", (e) => {
+				console.log("***** tap here")
+				mmImg.src = "http://120.79.218.62:8080/login/kaptcha.jpg"
 			})
 		</script>
 	</body>

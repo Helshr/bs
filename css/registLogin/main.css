@@ -163,10 +163,10 @@ iframe {
 
 .login100-form-avatar {
   display: block;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  overflow: hidden;
+  width: 400px;
+  /* height: 400px; */
+  /* border-radius: 50%; */
+  /* overflow: hidden; */
   margin: 0 auto;
 }
 
@@ -442,17 +442,18 @@ iframe {
 
 
 .mm-img{
-	  position: fixed;
+	  /* position: fixed; */
     right: 13px;
-    margin-top: -55px;
-    color: white;
+    margin-top: -75px;
+    /* color: white; */
     padding: 10px 10px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    /* display: inline-block; */
     font-size: 16px;
     border: none;
 		border-radius: 1em;
+		margin-left: 280px;
 }
 
 .hide-div {

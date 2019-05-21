@@ -131,6 +131,7 @@
 			
 			const getNumber = e('#getNumber')
 			getNumber.addEventListener("click", (e) => {
+				alert("验证码已发送")
 				console.log("click here " + username + txt_password + ageDiv)
 				let phone = phoneDiv.value
 				let s = `?phone=${phone}`

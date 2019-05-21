@@ -18,6 +18,7 @@ html { touch-action: none; }
 
 #offCanvasSide {
 	text-align: center;
+	background-color: #4887fb;
 }
 
 .white {
@@ -83,7 +84,7 @@ li {
 .div-logo {
 	margin-left: 30px;
 	margin-top: 70px;
-	background-image: url(../image/logo.png);
+	/* background-image: url(../image/logo.png); */
 	background-size: 330px;
 	background-repeat:no-repeat;
 	/* width: 300px; */
